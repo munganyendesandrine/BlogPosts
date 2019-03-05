@@ -3,7 +3,6 @@ from . import auth
 from flask_login import login_user,logout_user,login_required
 from ..models import User
 from .forms import LoginForm,RegistrationForm
-# from .forms import RegistrationForm
 from .. import db
 from ..email import mail_message
 
@@ -12,7 +11,7 @@ def login():
     login_form = LoginForm()
     if login_form.validate_on_submit():
         user = User.query.filter_by(email = login_form.email.data).first()
-        # return render_template('posts.html')
+     
 
         if user is not None and user.verify_password(login_form.password.data):
             login_user(user,login_form.remember.data)
@@ -23,26 +22,6 @@ def login():
     title = "User login"
     return render_template('auth/login.html',login_form = login_form,title=title)
 
-# @auth.route('/posts',methods=['GET','POST'])
-# def posts():
-#     posts_form = PostsForm()
-#     if login_form.validate_on_submit():
-#         user = User.query.filter_by(email = login_form.email.data).first()
-#         if user is not None and user.verify_password(login_form.password.data):
-#             login_user(user,login_form.remember.data)
-#             return redirect(request.args.get('next') or url_for('main.posts'))
-
-#         flash('Invalid username or Password')
-
-#     title = "Posts Area"
-#     return render_template('auth/posts.html',posts_form = posts_form,title=title)
-
-# @auth.route('/posts',methods = ["GET","POST"])
-# @login_required
-# def posts():
-#     posts_form = PostsForm()
-#     title = "Posts Area"
-#     return render_template('auth/posts.html',posts_form = posts_form,title=title)
 
 @auth.route('/register',methods = ["GET","POST"])
 def register():
@@ -52,7 +31,7 @@ def register():
         user = User(email = form.email.data, username = form.username.data,password = form.password.data)
         db.session.add(user)
         db.session.commit()
-        mail_message("Welcome to Pitch App","email/welcome_user",user.email,user=user)
+        mail_message("Welcome to BlogPosts App","email/welcome_user",user.email,user=user)
         return redirect(url_for('auth.login'))
         title = "New Account"
     return render_template('auth/register.html',registration_form = form, pitch=form1)

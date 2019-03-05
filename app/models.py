@@ -7,36 +7,7 @@ from . import login_manager
 def load_user(id):
     return User.query.get(int(id))
 
-class Review:
 
-    all_reviews = []
-
-    def __init__(self,movie_id,title,imageurl,review):
-        self.movie_id = movie_id
-        self.title = title
-        self.imageurl = imageurl
-        self.review = review
-
-
-    def save_review(self):
-        Review.all_reviews.append(self)
-
-
-    @classmethod
-    def clear_reviews(cls):
-        Review.all_reviews.clear()
-
-    @classmethod
-    def get_reviews(cls,id):
-
-        response = []
-
-        for review in cls.all_reviews:
-            if review.movie_id == id:
-                response.append(review)
-
-        return response
-        
 class User(UserMixin,db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer,primary_key = True)
@@ -60,23 +31,24 @@ class User(UserMixin,db.Model):
     def __repr__(self):
         return f'User {self.username}'    
 
-class Pitches(db.Model):
-    __tablename__ = 'pitches'
+class BlogPost(db.Model):
+    __tablename__ = 'blogs'
 
     id = db.Column(db.Integer,primary_key = True)
-    description = db.Column(db.String(255))
+    blog = db.Column(db.String(255))
     user_id = db.Column(db.Integer,db.ForeignKey('users.id'))
+    comment_id = db.Column(db.Integer,db.ForeignKey('comments.id'))
 
-    def save_post(self):
+    def save_blog(self):
         db.session.add(self)
         db.session.commit()
 
-    def fetch_pitches():
-        pitches= Pitches.query.all()
-        return pitches 
+    def fetch_blogs():
+        blogs= BlogPost.query.all()
+        return blogs 
         
     def __repr__(self):
-        return f'Pitches {self.name}'           
+        return f'BlogPost {self.name}'           
 
 
 class Comment(db.Model):
@@ -85,11 +57,20 @@ class Comment(db.Model):
     id = db.Column(db.Integer,primary_key = True)
     comment = db.Column(db.String(255))
     user_id = db.Column(db.Integer,db.ForeignKey('users.id'))
-    pitch_id = db.Column(db.Integer,db.ForeignKey('pitches.id'))
+    blog_id = db.Column(db.Integer,db.ForeignKey('blogs.id'))
+
+    # @classmethod
+    # def get_comments(cls,id):
+    #   comments=Comment.query.filter_by(blog_id=id).all()
+    #   return comments
 
     def save_comment(self):
         db.session.add(self)
         db.session.commit()
+
+    def fetch_comment():
+        comment= Comment.query.all()
+        return comment   
         
 
     def __repr__(self):

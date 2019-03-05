@@ -40,15 +40,8 @@
       <input type="submit">
 
     </form><br><br>
-    <p><strong><i><u>User Pitches</u></i></strong></p>
+    <p><strong><i><u>User Blog Posts</u></i></strong></p>
     <!-- <a href="{{url_for('main.profile',uname=user.username)}}">Click here </a> -->
-
-    {%for pitch in pitches%}
- <p>{{pitch.description}}</p>
- <p>{{pitch.user}}</p>
-{%endfor%}
-{{wtf.quick_form(opinion)}} 
-
 
 {% endblock %}
   </div>
