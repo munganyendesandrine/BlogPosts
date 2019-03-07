@@ -27,32 +27,45 @@
    
       {% block content %}
 
-       <p><a href="{{url_for('main.posts')}}">Click here to write a new post</a></p>
-       <p><a href="{{url_for('main.comments')}}">new comment</a></p>
+      <a href="/posts"><button class="btn btn-primary">ADD POST</button><br><br></a>
+       
 
         {%for post in blogs%}
           <p>{{post.blog}}</p>
+          
           <p>{{post.user_id}}</p> 
-
+           
    
           <!-- <button class="btn btn-success">UP VOTE</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           <button class="btn btn-danger">DOWN VOTE</button><br><br>  -->
-          <button class="btn btn-success">CREATE NEW BLOG</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-          <button class="btn btn-danger">DELETE BLOG</button><br><br>
+          <!-- <button class="btn btn-success">CREATE NEW BLOG</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+          <button class="btn btn-danger">DELETE BLOG</button><br><br> -->
+          <a href="/comments/new/{{post.id}}"><button class="btn btn-info">ADD COMMENTS</button><br><br></a>
+
+          <!-- {% if a %}
+            {% for comment in comment %}
+
+              <p>{{ comment.comment}}</p>
+         
+          
+            {% endfor %}
+           {% else %}
            
+          {% endif %} -->
         {%endfor%}
 
         <br><br>
        
-        <button class="btn btn-primary">UPDATE ALL</button><br><br>
-        <button class="btn btn-danger">DELETE ALL</button><br><br>
+        <!-- <button class="btn btn-primary">UPDATE ALL</button><br><br>
+        <button class="btn btn-danger">DELETE ALL</button><br><br> -->
 
         {% for comment in comment %}
 
          <p>{{ comment.comment}}</p>
-         <a href="/comments/{{comment.id}}"><button class="btn btn-info">VIEW COMMENTS</button><br><br></a>
+        
+         <button class="btn btn-danger">DELETE comment</button><br><br> 
         {% endfor %}
-       
+        
         
         
    

@@ -100,18 +100,20 @@ def posts():
 
 
 #Comments routing
-@main.route('/comments',methods = ["GET","POST"])#/<int:id>
+@main.route('/comments/new/<int:id>',methods = ["GET","POST"])#/<int:id>
 @login_required
-def comments():    
+def comments(id):    
     form = CommentForm()
-    
-    # blog = BlogPost.query.filter_by(id=id).all()
+    blog = BlogPost.query.filter_by(id=id).first()
     # comment = Comment.fetch_comment() 
     if form.validate_on_submit():
-        comment=Comment(comment=form.comment.data,user_id=current_user.id)#, blog_id=id
+        comment=Comment(comment=form.comment.data,user_id=current_user.id, blog_id=id)#, blog_id=id
         db.session.add(comment)
         db.session.commit()
         comment.save_comment()
+        comment.delete_comment()
         # print(comment)
         return redirect(url_for('.index'))
-    return render_template('comments.html',comments_form=form,comment=form)
+    return render_template('comments.html',comments_form=form,comment=form,blog=blog)
+
+    

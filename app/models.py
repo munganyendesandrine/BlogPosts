@@ -72,6 +72,10 @@ class Comment(db.Model):
         comment= Comment.query.all()
         return comment   
         
+    def delete_comment(self):
+        db.session.delete(self)
+        db.session.commit()
+   
 
     def __repr__(self):
         return f'Comment {self.name}' 
